@@ -1,8 +1,6 @@
 const { User } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
-const { saveBook } = require('../controllers/user-controller');
-const { model } = require('mongoose');
 
 //Refactor the UserController here for resolvers and Mutations
 const resolvers = {
