@@ -1,7 +1,7 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
- type User { //me?
+ type User {
     _id: ID
     username: String
     email: String
@@ -9,25 +9,26 @@ const typeDefs = gql`
     savedBooks: [String]
  }
 
- type bookSchema {
+ type Book {
+    _id: ID
     authors: [String]
     description: String
     bookId: String
     image: String
+    forSale: String
     link: String
     title: String
  }
 
  type Query {
-    getSingleUser: [User]
-    createUser: [User]
+    me: User
  }
 
  type Mutation {
    login(email: String!, password: String!): Auth
    addUser(username: String!, email: String!, password: String!): Auth
-   saveBook: [authors]// not sure how to finish this one "look into input type to handle parameters"
-   removeBook(bookId:): User
+   saveBook(book: SavedBookInput): User
+   removeBook(bookId: String): User
  }
 
 
@@ -46,12 +47,11 @@ type Book {
     title: String
     image: String
     link: String
+    forSale: String
 }
 
 type Auth {
-    token: String
+    token: ID!
     user: User
 }
-
-
-`
+`;

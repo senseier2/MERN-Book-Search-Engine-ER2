@@ -9,16 +9,17 @@ const resolvers = {
     getSingleUser: async (parent, { userId }) => {
         return User.findOne({ _id: profileId });
       },
-    // create a User
-    createUser: async (parent, { username, email, password }) => {
-        const user = await User.create({ username, email, password });
-        const token = signToken(user);
-  
-        return ({ token, user });
-      },
-    },
 
 Mutation: {
+
+    // create a User
+    createUser: async (parent, { username, email, password }) => {
+          const user = await User.create({ username, email, password });
+          const token = signToken(user);
+    
+          return ({ token, user });
+        },
+      },
     //login user
     login: async (parent, { username, email }) => {
         const profile = await User.findOne({ email });
