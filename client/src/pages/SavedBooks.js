@@ -1,49 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
 
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { REMOVE_BOOK } from '../utils/mutations';
 import Auth from '../utils/auth';
+import { deleteBook } from '../utils/API';
 import { removeBookId } from '../utils/localStorage';
 
-const SavedBooks = () => {
-  const { loading, data } = useQuery(GET_ME);
-  const [deleteBook] = useMutation(REMOVE_BOOK);
-  const userData = data?.me || {};
 
-if(!userData?.username) {
-  return (
-    <h4>
-      You must login to see this page. Use the navigation to go to the login page and try again!
-    </h4>
-  );
-}
+const SavedBooks = () => {
+
+  const { loading, error, data } = useQuery(GET_ME);
+  const [removeBook] = useMutation(REMOVE_BOOK);
+
+
+const userData = data?.me
+console.log(userData);
 
 //Deleting the book via it's bookID
 const handleDeleteBook = async (bookId) => {
-  const token = Auth.loggedIn() ? Auth.getToken() : null;
+ try {
+  const response = await removeBook({
+    variables: { bookId: bookId }
+  });
 
-  if (!token) {
-    return false;
+  if (!response) {
+    throw new Error('something went wrong!');
   }
+  removeBookId(bookId);
+  window.location.reload()
 
-  try {
-    await deleteBook({
-      variables: {bookId: bookId},
-      update: cache => {
-        const data = cache.readQuery({ query: GET_ME });
-        const userDataCache = data.me;
-        const savedBooksCache = userDataCache.savedBooks;
-        const updatedBookCache = savedBooksCache.filter((book) => book.bookId !== bookId);
-        data.me.savedBooks = updatedBookCache;
-        cache.writeQuery({ query: GET_ME , data: {data: {...data.me.savedBooks}}})
-      }
-    });
-    removeBookId(bookId);
-  } catch (err) {
-    console.error(err);
-  }
+ } catch (err) {
+  console.error(err);
+ }
 };
 
 // Loading data 

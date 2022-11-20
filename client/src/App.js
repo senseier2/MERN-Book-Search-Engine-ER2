@@ -18,7 +18,7 @@ const httpLink = createHttpLink({
 });
 
 //middleware for JWT token for authorization
-const authLink = setContext((_, {headers }) => {
+const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('id_token');
   return {
     headers: {
