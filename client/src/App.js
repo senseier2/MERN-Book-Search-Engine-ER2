@@ -13,10 +13,8 @@ import SavedBooks from './pages/SavedBooks';
 import Navbar from './components/Navbar';
 
 //httpLink for graphql
-const url = process.env.NODE_ENV === 'development'
-  ? '/graphql' : 'https://intense-sea-27723.herokuapp.com/graphql';
 const httpLink = createHttpLink({
-  uri: url
+  uri: '/graphql'
 });
 
 //middleware for JWT token for authorization
