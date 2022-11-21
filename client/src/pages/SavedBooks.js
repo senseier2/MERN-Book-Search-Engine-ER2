@@ -17,7 +17,6 @@ const SavedBooks = () => {
 
 const userData = data?.me
 console.log(userData);
-
 //Deleting the book via it's bookID
 const handleDeleteBook = async (bookId) => {
  try {
@@ -29,7 +28,6 @@ const handleDeleteBook = async (bookId) => {
     throw new Error('something went wrong!');
   }
   removeBookId(bookId);
-  window.location.reload()
 
  } catch (err) {
   console.error(err);
