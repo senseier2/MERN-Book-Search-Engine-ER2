@@ -14,9 +14,9 @@ import Navbar from './components/Navbar';
 
 //httpLink for graphql
 const url = process.env.NODE_ENV === 'development'
-  ? '/graphql' : ' https://intense-sea-27723.herokuapp.com/';
+  ? '/graphql' : 'https://intense-sea-27723.herokuapp.com/graphql';
 const httpLink = createHttpLink({
-  uri: url,
+  uri: 'https://intense-sea-27723.herokuapp.com/graphql',
 });
 
 //middleware for JWT token for authorization
